@@ -1,4 +1,4 @@
-﻿#include "notepad.h"
+#include "notepad.h"
 #include "setting.h"
 #include <iostream>
 
@@ -27,6 +27,8 @@
 #include "utils.h"
 #include <QStatusBar>
 
+#include <QSystemTrayIcon>
+
 Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -39,7 +41,6 @@ Notepad::Notepad(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Notepad::writeSetting);
     timer->start(1000); // 1s
-
 
     QPixmap newPix(":/img/new.png");
     QPixmap openPix(":/img/open.png");
@@ -167,9 +168,33 @@ Notepad::Notepad(QWidget *parent) :
     QPixmap windowIcon(":/img/window.png");
     setWindowIcon(windowIcon);
 
+    /*       tray          */
+    trayIcon = new QSystemTrayIcon();
+    trayIcon->setIcon(QIcon(":/img/copy.png"));
+    trayIcon->setToolTip(tr("MyPlayer"));
+
+    // create menu
+    QMenu *trayMenu = new QMenu;
+    QList<QAction *> actions;
+
+    actions << newAct << copyAct << redoAct;
+    trayMenu->addActions(actions);
+    trayMenu->addSeparator();
+    trayMenu->addAction(fontAct);
+    trayMenu->addAction(tr("exit"), qApp, SLOT(quit()));
+    trayIcon->setContextMenu(trayMenu);
+    trayIcon->show(); // display tray ico
+
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &Notepad::trayIconActivated);
 
     setCentralWidget(textEdit);
 }
+
+Notepad::~Notepad()
+{
+
+}
+
 
 void Notepad::newDocument()
 {
@@ -177,18 +202,13 @@ void Notepad::newDocument()
     textEdit->setText(QString());
 }
 
+
 void Notepad::open()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     "open file");
     currentFile = fileName;
     textEdit->open(fileName);
-}
-
-
-Notepad::~Notepad()
-{
-
 }
 
 void Notepad::save()
@@ -209,6 +229,7 @@ void Notepad::save()
     setWindowTitle(fileName);
 }
 
+
 void Notepad::saveAs()
 {
     QString fileName = QFileDialog
@@ -218,6 +239,7 @@ void Notepad::saveAs()
 
     textEdit->saveAs(fileName);
 }
+
 
 void Notepad::print()
 {
@@ -235,6 +257,7 @@ void Notepad::exit()
     QCoreApplication::quit();
 }
 
+
 void Notepad::selectFont()
 {
     bool fontSelected;
@@ -243,6 +266,7 @@ void Notepad::selectFont()
         textEdit->setFont(font);
 }
 
+
 void Notepad::about()
 {
     QMessageBox::about(this, tr("About Notepad"),
@@ -250,11 +274,13 @@ void Notepad::about()
                           "text editor using QtWidgets"));
 }
 
+
 void Notepad::settingDialog()
 {
     Setting dialog;
     dialog.exec();
 }
+
 
 void Notepad::writeSetting()
 {
@@ -263,6 +289,7 @@ void Notepad::writeSetting()
     settings.setValue("pos", this->pos());
     settings.setValue("size", this->size());
 }
+
 
 void Notepad::readSettings()
 {
@@ -274,6 +301,7 @@ void Notepad::readSettings()
     this->move(pos);
     this->resize(size);
 }
+
 
 void Notepad::initStatusBar()
 {
@@ -287,21 +315,35 @@ void Notepad::initStatusBar()
     m_secondStatusLabel->setAlignment(Qt::AlignCenter);
 }
 
+
 void Notepad::showStausLineNumber()
 {
 
     QMap<QString, QString> lineNumber = textEdit->showTextRowAndCol();
 
-//    QString row = lineNumber["row"];
-//    QString col = lineNumber["col"];
-
     QString row = lineNumber.value("row");
     QString col = lineNumber.value("col");
-
-    qDebug() << "row: " << row
-             << "col: " << col;
-
     lineNumberLabel->setText(QString("第%1行,第%2列").arg(row, col));
+
     this->statusBar()->addWidget(lineNumberLabel);
     lineNumberLabel->setAlignment(Qt::AlignLeft);
+}
+
+
+
+void Notepad::trayIconActivated(QSystemTrayIcon::ActivationReason activationReason)
+{
+    if (activationReason == QSystemTrayIcon::Trigger)
+    {
+        show();
+    }
+}
+
+void Notepad::closeEvent(QCloseEvent *event)
+{
+    if (isVisible())
+        hide();
+
+    trayIcon->showMessage(tr("MyPlayer muisc"), tr("go main window"));
+    event->ignore();
 }

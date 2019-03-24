@@ -7,6 +7,10 @@
 #include <QCloseEvent>
 #include <QContextMenuEvent>
 #include <QLabel>
+#include <QSystemTrayIcon>
+
+#include <QMenu>
+#include <QCloseEvent>
 
 #include "editor.h"
 
@@ -37,6 +41,12 @@ private slots:
 
     void showStausLineNumber();
     void initStatusBar();
+
+    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+
+protected:
+    void closeEvent(QCloseEvent *event);
+
 private:
     void createActions();
     void createMenus();
@@ -47,11 +57,15 @@ private:
     QLabel *lineNumberLabel;
     QLabel *m_secondStatusLabel;
 
+    QSystemTrayIcon *trayIcon;
+
     bool boldDone = false;         // default font is not bold
     bool italicDone = false;       // default font is not italic
     bool underLineDone = false;    // default font is not underline
 
     void settingDialog();
+
+
 };
 
 #endif // WIDGET_H

@@ -29,7 +29,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     notepad.cpp \
     editor.cpp \
-    systemtray.cpp \
     setting.cpp \
     settingpage.cpp \
     utils.cpp
@@ -37,7 +36,6 @@ SOURCES += main.cpp \
 HEADERS  += \
     notepad.h \
     editor.h \
-    systemtray.h \
     setting.h \
     settingpage.h \
     utils.h

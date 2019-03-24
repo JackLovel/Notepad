@@ -1,3 +1,7 @@
+/*
+ * unrealised feature
+ */
+
 #include "utils.h"
 #include "setting.h"
 #include "settingpage.h"

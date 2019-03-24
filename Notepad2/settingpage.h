@@ -1,3 +1,7 @@
+/*
+ * unrealised feature
+ */
+
 #ifndef SETTINGPAGE_H
 #define SETTINGPAGE_H
 
