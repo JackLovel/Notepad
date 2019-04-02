@@ -2,7 +2,7 @@
 base on qt 
 
 ## TODO
-- [ ] system tray
+- [x] system tray
 - [x] about dialog 
 - [ ] replace dialog
 - [ ] find dialog 
