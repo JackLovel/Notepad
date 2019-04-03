@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/underline.png</file>
+        <file>img/save.png</file>
+        <file>img/save_as.png</file>
+        <file>img/print.png</file>
+        <file>img/pencil.png</file>
+        <file>img/paste.png</file>
+        <file>img/open.png</file>
+        <file>img/new.png</file>
+        <file>img/italic.png</file>
+        <file>img/font.png</file>
+        <file>img/exit.png</file>
+        <file>img/edit_undo.png</file>
+        <file>img/edit_redo.png</file>
+        <file>img/cut.png</file>
+        <file>img/create.png</file>
+        <file>img/copy.png</file>
+        <file>img/bold.png</file>
+        <file>img/about.png</file>
+        <file>settings/keys.json</file>
+        <file>img/boot_screen.png</file>
+        <file>img/screen.png</file>
+        <file>img/window.png</file>
+        <file>style/buttonStyle.qss</file>
+        <file>style/checkBoxStyle.qss</file>
+        <file>img/switch_on.png</file>
+        <file>img/switch_off.png</file>
+    </qresource>
+</RCC>
