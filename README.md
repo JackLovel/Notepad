@@ -5,7 +5,7 @@ base on qt
 - [x] system tray
 - [x] about dialog 
 - [ ] replace dialog
-- [ ] find dialog 
+- [x] find dialog 
 - [ ] search dialog 
 - [ ] setting dialog 
 - [x] line number (side bar)
