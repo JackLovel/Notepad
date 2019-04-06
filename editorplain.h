@@ -39,10 +39,11 @@ private:
     void paste();
     void undo();
     void redo();
+    void clear();
     void setText(const QString text);
-    void open(const QString fileName);
-    void save(const QString fileName);
-    void saveAs(const QString fileName);
+    void open(const QString filePath);
+    void save(const QString filePath);
+    void saveAs(const QString filePath);
 };
 
 class LineNumberArea : public QWidget

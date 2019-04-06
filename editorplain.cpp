@@ -107,7 +107,6 @@ void CodeEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
     }
 }
 
-// ways
 void CodeEditor::wheelEvent(QWheelEvent *event)
 {
         if (event->delta() > 0)
@@ -145,39 +144,46 @@ void CodeEditor::redo()
     QPlainTextEdit::redo();
 }
 
+void CodeEditor::clear()
+{
+    QPlainTextEdit::clear();
+}
+
 void CodeEditor::setText(const QString text)
 {
     QPlainTextEdit::setPlainText(text);
 }
 
-void CodeEditor::open(const QString fileName)
+void CodeEditor::open(const QString filePath)
 {
 
-    QFile file(fileName);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QFile file(filePath);
 
-    QString content = file.readAll();
-    setText(content);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QString content = file.readAll();
+        setText(content);
+    }
 
     file.close();
 }
 
-void CodeEditor::save(const QString fileName)
+void CodeEditor::save(const QString filePath)
 {
     QString content = this->toPlainText();
 
-    QFile file(fileName);
+    QFile file(filePath);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     file.write(content.toUtf8());
 
     file.close();
 }
 
-void CodeEditor::saveAs(const QString fileName)
+void CodeEditor::saveAs(const QString filePath)
 {
     QString content = this->toPlainText();
 
-    QFile file(fileName);
+    QFile file(filePath);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
 
     file.write(content.toUtf8());

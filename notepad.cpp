@@ -5,8 +5,9 @@
 #include <QPrintDialog>
 #include <QPrinter>
 #include <QFontDialog>
-
+#include <QIODevice>
 #include <QDebug>
+
 #include "utils.h"
 
 Notepad::Notepad(QWidget *parent) :
@@ -118,7 +119,14 @@ void Notepad::createUI()
      * findDialog
      * */
      m_findDialog = new FindDialog(this);
+
+    /*
+     * drag file
+     * */
+     textEdit->setAcceptDrops(false);
+     setAcceptDrops(true);
 }
+
 
 void Notepad::createMenus()
 {
@@ -171,9 +179,9 @@ void Notepad::createToolBars()
     toolbar->addAction(fontAction);
     toolbar->addSeparator();
     toolbar->addAction(exitAction);
-    toolbar->addAction(boldAction);
-    toolbar->addAction(underlineAction);
-    toolbar->addAction(fontItalicAction);
+    //toolbar->addAction(boldAction);
+    //toolbar->addAction(underlineAction);
+    //toolbar->addAction(fontItalicAction);
     toolbar->addSeparator();
     toolbar->addAction(aboutAction);
 }
@@ -374,3 +382,29 @@ void Notepad::findText(QString value, bool isChecked, bool isUp)
     palette.setColor(QPalette::Highlight,palette.color(QPalette::Active,QPalette::Highlight));
     textEdit->setPalette(palette);
 }
+
+void Notepad::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat("text/uri-list")) {
+        event->acceptProposedAction();
+    }
+}
+
+void Notepad::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if (urls.isEmpty()) {
+        return;
+    }
+
+    QString fileName = urls.first().toLocalFile();
+    if (fileName.isEmpty()) {
+        return;
+    }
+
+    textEdit->open(fileName);
+//    if (textEdit->open(fileName)) {
+//        setWindowTitle(tr("%1 - %2").arg(fileName, tr("Drag File")));
+//    }
+}
+

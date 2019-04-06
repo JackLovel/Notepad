@@ -32,10 +32,14 @@ private slots:
     void findDialog();
     void findText(QString value, bool isChecked, bool isUp);
 
+protected:
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 private:
     CodeEditor *textEdit;
     QString currentFile;
+    //bool readFile(const QString &fileName);
 
     /* statusBar
      * */
