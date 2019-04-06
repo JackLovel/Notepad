@@ -179,9 +179,6 @@ void Notepad::createToolBars()
     toolbar->addAction(fontAction);
     toolbar->addSeparator();
     toolbar->addAction(exitAction);
-    //toolbar->addAction(boldAction);
-    //toolbar->addAction(underlineAction);
-    //toolbar->addAction(fontItalicAction);
     toolbar->addSeparator();
     toolbar->addAction(aboutAction);
 }
@@ -377,7 +374,6 @@ void Notepad::findText(QString value, bool isChecked, bool isUp)
 
     }
 
-    //
     QPalette palette = textEdit->palette();
     palette.setColor(QPalette::Highlight,palette.color(QPalette::Active,QPalette::Highlight));
     textEdit->setPalette(palette);
@@ -403,8 +399,5 @@ void Notepad::dropEvent(QDropEvent *event)
     }
 
     textEdit->open(fileName);
-//    if (textEdit->open(fileName)) {
-//        setWindowTitle(tr("%1 - %2").arg(fileName, tr("Drag File")));
-//    }
 }
 
