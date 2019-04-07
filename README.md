@@ -4,9 +4,9 @@ base on qt
 ## TODO
 - [x] system tray
 - [x] about dialog 
-- [ ] replace dialog
+- [x] replace dialog
 - [x] find dialog 
-- [ ] search dialog 
+- [x] search dialog 
 - [ ] setting dialog 
 - [x] line number (side bar)
 - [x] line number (status bar)
