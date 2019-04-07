@@ -33,7 +33,11 @@ private slots:
     void showStatusLineNumber();
     void findDialog();
     void findText(QString value, bool isChecked, bool isUp);
+
     void openReplaceDialog();  // open replace dialog
+    void findForReplaceSlot(QString, bool);
+    void doReplaceSlot(QString, QString, bool, bool);
+    void replace(QString, bool);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -85,6 +89,8 @@ private:
     const QString AppName = "Notpad2";
     const QString WelecomeInfo = "Welecome to Notpad2!";
     const QString WelecomeUrl = tr("欢迎登陆%1");
+
+    bool isFirstFind;
 
     // find dialog
     FindDialog  *m_findDialog;

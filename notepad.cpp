@@ -6,6 +6,7 @@
 #include <QPrinter>
 #include <QFontDialog>
 #include <QIODevice>
+#include <QTextCursor>
 #include <QDebug>
 
 #include "utils.h"
@@ -40,6 +41,7 @@ void Notepad::open()
 
 void Notepad::createUI()
 {
+    isFirstFind = true;//是否第一次搜索 替换时用
     /*
      * 加载用户之前状态：比如 窗口大小、窗口位置
      **/
@@ -130,10 +132,10 @@ void Notepad::createUI()
      /*
       * replace dialog
       * */
+     bool isFindFind = false;
      replaceDialog = new ReplaceDialog(this);
 
 }
-
 
 void Notepad::createMenus()
 {
@@ -218,6 +220,8 @@ void Notepad::createConnect()
 
     // replace
     connect(replaceAction, &QAction::triggered, this, &Notepad::openReplaceDialog);
+    connect(replaceDialog, SIGNAL(find(QString, bool)), this, SLOT(findForReplaceSlot(QString, bool)));
+    connect(replaceDialog, SIGNAL(replace(QString,QString,bool,bool)), this, SLOT(doReplaceSlot(QString, QString, bool, bool)));
 }
 
 void Notepad::save()
@@ -416,3 +420,63 @@ void Notepad::openReplaceDialog()
     replaceDialog->exec();
 }
 
+void Notepad::findForReplaceSlot(QString value, bool isChecked)
+{
+    if (isFirstFind) {
+        textEdit->moveCursor(QTextCursor::Start);
+        isFirstFind = false;
+    }
+
+    this->findText(value, isChecked, false);
+}
+
+void Notepad::replace(QString value, bool checkDone)
+{
+    QTextCursor cursor = textEdit->textCursor();
+    // replace single word
+    cursor.insertText(value);
+    // Move the cursor to the previous position
+    textEdit->moveCursor(cursor.PreviousCharacter);
+    //是否区别大小写，查找替换后的值光亮
+    if (!checkDone)
+    {
+        textEdit->find(value);
+    } else {
+        textEdit->find(value, QTextDocument::FindCaseSensitively);
+    }
+}
+
+void Notepad::doReplaceSlot(QString target, QString value, bool checkedDone,  bool replaceAllDone)
+{
+    if (isFirstFind) {
+        textEdit->moveCursor(QTextCursor::Start);
+        isFirstFind = false;
+    }
+
+    if (!checkedDone){
+      if (!textEdit->find(target)) {
+          showMessage("找不到\"" + target + "\"");
+          return;
+      }
+    } else {
+        if (!textEdit->find(target, QTextDocument::FindCaseSensitively)) {
+           showMessage("找不到\"" + target + "\"");
+           return;
+        }
+    }
+
+    // 高亮选中
+    QPalette palette = textEdit->palette();
+    palette.setColor(QPalette::Highlight, palette.color(QPalette::Active, QPalette::Highlight));
+    textEdit->setPalette(palette);
+
+    // 替换
+    if (replaceAllDone) {
+        if (!textEdit->textCursor().atEnd()) {
+            replace(value, checkedDone);
+            doReplaceSlot(target, value, checkedDone, replaceAllDone);
+        }
+    } else {
+        replace(value, checkedDone);
+    }
+}
