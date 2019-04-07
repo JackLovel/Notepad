@@ -4,8 +4,10 @@
 #include <QWidget>
 #include <QMainWindow>
 #include <QtWidgets>
+
 #include "editorplain.h"
-#include "ndialog.h"
+#include "finddialog.h"
+#include "replacedialog.h"
 
 class Notepad : public QMainWindow
 {
@@ -31,6 +33,7 @@ private slots:
     void showStatusLineNumber();
     void findDialog();
     void findText(QString value, bool isChecked, bool isUp);
+    void openReplaceDialog();  // open replace dialog
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -76,6 +79,7 @@ private:
     QAction *aboutAction;
     QAction *settingAction;
     QAction *findAction;
+    QAction *replaceAction;
 
     const int storeInterval = 1000; // 1s
     const QString AppName = "Notpad2";
@@ -84,6 +88,7 @@ private:
 
     // find dialog
     FindDialog  *m_findDialog;
+    ReplaceDialog *replaceDialog;
 };
 
 #endif // WIDGET_H

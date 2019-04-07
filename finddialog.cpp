@@ -1,4 +1,4 @@
-#include "ndialog.h"
+#include "finddialog.h"
 
 #include <QHBoxLayout>
 #include <QMessageBox>

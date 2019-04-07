@@ -1,5 +1,6 @@
-#ifndef NDIALOG_H
-#define NDIALOG_H
+#ifndef FINDDIALOG_H
+#define FINDDIALOG_H
+
 
 #include <QWidget>
 #include <QGroupBox>
@@ -51,5 +52,4 @@ private:
 
     void showMessage(QString title);
 };
-
-#endif // NDIALOG_H
+#endif // FINDDIALOG_H

@@ -9,21 +9,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     notepad.cpp \
-    systemtray.cpp \
     setting.cpp \
     settingpage.cpp \
     utils.cpp \
     editorplain.cpp \
-    ndialog.cpp
+    replacedialog.cpp \
+    finddialog.cpp
 
 HEADERS  += \
     notepad.h \
-    systemtray.h \
     setting.h \
     settingpage.h \
     utils.h \
     editorplain.h \
-    ndialog.h
+    replacedialog.h \
+    finddialog.h
 
 FORMS    += widget.ui
 

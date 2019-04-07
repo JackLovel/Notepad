@@ -82,6 +82,7 @@ void Notepad::createUI()
     settingAction = new QAction("setting", this);
 
     findAction = new QAction("find", this);
+    replaceAction = new QAction("replace", this);
 
     newAction->setShortcut(Utils::readJson(this, "menu", "newFile"));
     openAction->setShortcut(Utils::readJson(this, "menu", "openFile"));
@@ -125,6 +126,12 @@ void Notepad::createUI()
      * */
      textEdit->setAcceptDrops(false);
      setAcceptDrops(true);
+
+     /*
+      * replace dialog
+      * */
+     replaceDialog = new ReplaceDialog(this);
+
 }
 
 
@@ -151,6 +158,7 @@ void Notepad::createMenus()
     fileMenu->addAction(exitAction);
     fileMenu->addAction(settingAction);
     fileMenu->addAction(findAction);
+    fileMenu->addAction(replaceAction);
 
     QMenu *editMenu = menuBar()->addMenu(tr("&edit"));
     editMenu->addAction(copyAction);
@@ -208,6 +216,8 @@ void Notepad::createConnect()
     // findDialog
     connect(m_findDialog, SIGNAL(find(QString, bool, bool)), this, SLOT(findText(QString, bool, bool)));
 
+    // replace
+    connect(replaceAction, &QAction::triggered, this, &Notepad::openReplaceDialog);
 }
 
 void Notepad::save()
@@ -399,5 +409,10 @@ void Notepad::dropEvent(QDropEvent *event)
     }
 
     textEdit->open(fileName);
+}
+
+void Notepad::openReplaceDialog()
+{
+    replaceDialog->exec();
 }
 
