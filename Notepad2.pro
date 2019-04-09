@@ -14,7 +14,9 @@ SOURCES += main.cpp \
     utils.cpp \
     editorplain.cpp \
     replacedialog.cpp \
-    finddialog.cpp
+    finddialog.cpp \
+    generalsettingpage.cpp \
+    shortcutsettingpage.cpp
 
 HEADERS  += \
     notepad.h \
@@ -23,7 +25,9 @@ HEADERS  += \
     utils.h \
     editorplain.h \
     replacedialog.h \
-    finddialog.h
+    finddialog.h \
+    generalsettingpage.h \
+    shortcutsettingpage.h
 
 FORMS    += widget.ui
 
