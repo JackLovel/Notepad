@@ -1,5 +1,7 @@
 #include "notepad.h"
 #include "setting.h"
+#include "utils.h"
+#include "aboutdialog.h"
 
 #include <qtprintsupportglobal.h>
 #include <QPrintDialog>
@@ -9,7 +11,7 @@
 #include <QTextCursor>
 #include <QDebug>
 
-#include "utils.h"
+
 
 Notepad::Notepad(QWidget *parent) :
     QMainWindow(parent)
@@ -208,7 +210,8 @@ void Notepad::createConnect()
     connect(undoAction, &QAction::triggered, textEdit, &CodeEditor::undo);
     connect(redoAction, &QAction::triggered, textEdit, &CodeEditor::redo);
     connect(fontAction, &QAction::triggered, this, &Notepad::selectFont);
-    connect(aboutAction, &QAction::triggered, this, &Notepad::about);
+//    connect(aboutAction, &QAction::triggered, this, &Notepad::about);
+    connect(aboutAction, &QAction::triggered, this, &Notepad::openAboutDialog);
     connect(settingAction, &QAction::triggered, this, &Notepad::settingDialog);
     connect(textEdit, &CodeEditor::cursorPositionChanged, this, &Notepad::showStatusLineNumber);
     connect(timer, &QTimer::timeout, this, &Notepad::storeUserSetting);
@@ -222,6 +225,8 @@ void Notepad::createConnect()
     connect(replaceAction, &QAction::triggered, this, &Notepad::openReplaceDialog);
     connect(replaceDialog, SIGNAL(find(QString, bool)), this, SLOT(findForReplaceSlot(QString, bool)));
     connect(replaceDialog, SIGNAL(replace(QString,QString,bool,bool)), this, SLOT(doReplaceSlot(QString, QString, bool, bool)));
+
+    // about
 }
 
 void Notepad::save()
@@ -479,4 +484,10 @@ void Notepad::doReplaceSlot(QString target, QString value, bool checkedDone,  bo
     } else {
         replace(value, checkedDone);
     }
+}
+
+void Notepad::openAboutDialog()
+{
+    AboutDialog *aboutDialog = new AboutDialog(this);
+    aboutDialog->exec();
 }

@@ -38,6 +38,7 @@ private slots:
     void findForReplaceSlot(QString, bool);
     void doReplaceSlot(QString, QString, bool, bool);
     void replace(QString, bool);
+    void openAboutDialog();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
